@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CONETSHOP</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d0d0d;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .box {
+      background-color: #1c1c1c;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,255,0,0.3);
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+
+    .login-button {
+      padding: 10px 25px;
+      font-size: 16px;
+      margin: 20px auto 0 auto;
+      display: block;
+    }
+
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      z-index: 1000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .panel {
+      padding: 30px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .wallet-box {
+      background-color: #2d2d2d;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 25px;
+      box-shadow: 0 0 8px rgba(0,255,0,0.3);
+    }
+
+    .section-separator {
+      border-top: 2px solid #28a745;
+      margin: 30px 0 15px 0;
+    }
+
+    .card-entry {
+      background-color: #181818;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0,255,0,0.1);
+    }
+
+    .card-entry p {
+      margin: 5px 0;
+    }
+
+    a.ccv-button {
+      color: #28a745;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 70px;
+      text-align: center;
+    }
+
+    .info-block h1 {
+      color: #28a745;
+      margin: 10px 0;
+    }
+
+    .info-block p {
+      margin: 6px 0;
+      font-size: 17px;
+    }
+
+    .clock {
+      color: #28a745;
+      font-size: 16px;
+    }
+
+    .header-container img {
+      width: 350px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,255,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginBox" class="centered">
+    <div class="box">
+      <img src="card.png" alt="Tarjeta CONETSHOP">
+      <h2>Iniciar Sesión</h2>
+      <input id="loginUser" type="text" placeholder="Usuario">
+      <input id="loginPass" type="password" placeholder="Contraseña">
+      <button class="login-button" onclick="login()">Entrar</button>
+      <p style="margin-top:15px;cursor:pointer;color:#28a745;" onclick="toggleForms()">¿No tienes cuenta? Regístrate</p>
+    </div>
+  </div>
+
+  <div id="registerBox" class="centered hidden">
+    <div class="box">
+      <img src="card.png" alt="Tarjeta CONETSHOP">
+      <h2>Registro</h2>
+      <input id="regUser" type="text" placeholder="Usuario">
+      <input id="regPass" type="password" placeholder="Contraseña">
+      <button class="login-button" onclick="register()">Registrarse</button>
+      <p style="margin-top:15px;cursor:pointer;color:#28a745;" onclick="toggleForms()">¿Ya tienes cuenta? Inicia sesión</p>
+    </div>
+  </div>
+
+  <div id="panel" class="hidden">
+    <button class="logout-btn" onclick="logout()">Salir</button>
+    <div class="header-container">
+      <div class="info-block">
+        <h1>Bienvenido, <span id="username"></span></h1>
+        <p>Balance actual: <strong>$0.00</strong></p>
+        <p class="clock" id="clockRD"></p>
+      </div>
+      <img src="card.png" alt="Tarjeta lateral"/>
+    </div>
+
+    <div class="panel">
+      <p style="color: #28a745; text-align: center; font-size: 16px;">⚠️ No compartas esta información. Es privada.</p>
+      <p style="text-align:center;color:#ccc">🗂️ Luego de realizar la compra, se desbloqueará toda la información correspondiente a las tarjetas en un archivo PDF exclusivo.</p>
+
+      <div class="section-separator"></div>
+
+      <div id="cardList"></div>
+
+      <div class="wallet-box">
+        <p><strong>🔁 Instrucciones para recargar:</strong></p>
+        <p>Para recargar tu cuenta, deberás realizar un depósito en criptomonedas USDT en la red TRC20. Estas serán enviadas a la dirección que te proporcionamos abajo. Esta dirección es única y personal para ti, y cualquier monto depositado será acreditado directamente a tu saldo.</p>
+        <br>
+        <p><strong>Esta es tu cartera USDT TRC20:</strong></p>
+        <p><strong style="color:#28a745">TJ4DcSJfBRTK9dwy5BG5ThouWDtm55HfY9</strong></p>
+        <br>
+        <p>Lo que deposites aquí será reflejado en tu saldo automáticamente luego de 5 a 10 minutos en lo que los administradores verifican la transacción.<br>
+        <strong>Mínimo 35 USDT.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tarjetas = [
+      { nombre: "Jonathan", numero: "4895 **** **** 1244", vencimiento: "07/29", cvv: "***" },
+      { nombre: "Michael", numero: "5390 **** **** 8810", vencimiento: "10/29", cvv: "***" },
+      { nombre: "Aiden", numero: "4716 **** **** 3322", vencimiento: "12/29", cvv: "***" },
+      { nombre: "Ethan", numero: "4020 **** **** 7741", vencimiento: "06/29", cvv: "***" },
+      { nombre: "Lucas", numero: "4519 **** **** 2234", vencimiento: "05/29", cvv: "***" },
+      { nombre: "Noah", numero: "4556 **** **** 1789", vencimiento: "08/29", cvv: "***" },
+      { nombre: "Oliver", numero: "4732 **** **** 9981", vencimiento: "04/29", cvv: "***" },
+    ];
+
+    const cardList = document.getElementById("cardList");
+    tarjetas.forEach(t => {
+      const div = document.createElement("div");
+      div.className = "card-entry";
+      div.innerHTML = `
+        <p>Nombre: ${t.nombre} - Número: ${t.numero}</p>
+        <p>Fecha de vencimiento: ${t.vencimiento} - CVV: ${t.cvv}</p>
+        <p>País: 🇺🇸 Estados Unidos</p>
+        <p>Precio: <strong>$20 USD</strong></p>
+        <a class="ccv-button" onclick="alert('Debes recargar tu cuenta para poder comprar CCV. Mínimo 35 USDT.')">Comprar CCV</a>
+      `;
+      cardList.appendChild(div);
+    });
+
+    function toggleForms() {
+      document.getElementById('loginBox').classList.toggle('hidden');
+      document.getElementById('registerBox').classList.toggle('hidden');
+    }
+
+    function register() {
+      const user = document.getElementById('regUser').value;
+      const pass = document.getElementById('regPass').value;
+      if(user && pass){
+        localStorage.setItem('user', user);
+        localStorage.setItem('pass', pass);
+        alert('Registro exitoso. Ahora inicia sesión.');
+        toggleForms();
+      } else {
+        alert('Completa todos los campos');
+      }
+    }
+
+    function login() {
+      const user = document.getElementById('loginUser').value;
+      const pass = document.getElementById('loginPass').value;
+      const savedUser = localStorage.getItem('user');
+      const savedPass = localStorage.getItem('pass');
+      if(user === savedUser && pass === savedPass){
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('panel').classList.remove('hidden');
+        document.getElementById('username').innerText = user.toUpperCase();
+        mostrarHoraRD();
+      } else {
+        alert('Usuario o contraseña incorrectos');
+      }
+    }
+
+    function logout() {
+      localStorage.clear();
+      location.reload();
+    }
+
+    function mostrarHoraRD() {
+      function actualizarHora() {
+        const opciones = { timeZone: 'America/Santo_Domingo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const horaRD = new Intl.DateTimeFormat('es-DO', opciones).format(new Date());
+        document.getElementById('clockRD').textContent = horaRD;
+      }
+      actualizarHora();
+      setInterval(actualizarHora, 1000);
+    }
+  </script>
+</body>
+</html>
