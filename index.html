@@ -201,8 +201,42 @@
       actualizarHora();
       setInterval(actualizarHora, 1000);
     }
+
+    // Protección contra inspección y copiado
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      alert("🚫 Acción no permitida. Esta página está protegida.");
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === "F12" || 
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) || 
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+        alert("🚫 Esta acción ha sido deshabilitada.");
+      }
+    });
+
+    let devtoolsOpen = false;
+    const threshold = 160;
+    setInterval(function () {
+      const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+      const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+      if (widthThreshold || heightThreshold) {
+        if (!devtoolsOpen) {
+          devtoolsOpen = true;
+          alert("🚨 DevTools detectado. Página protegida.");
+          window.location.reload();
+        }
+      } else {
+        devtoolsOpen = false;
+      }
+    }, 1000);
   </script>
 </body>
 </html>
+
 
 
