@@ -81,7 +81,7 @@
 <body>
   <div id="login" class="centered">
     <div class="box">
-      <img src="A_digital_image_displays_a_CONETSHOP-branded_debit.png" alt="Tarjeta CONETSHOP" style="width:100%; border-radius:10px; margin-bottom:15px;">
+      <img src="cconet.png" alt="Tarjeta CONETSHOP" style="width:100%; border-radius:10px; margin-bottom:15px;">
       <h2>Iniciar Sesión</h2>
       <input id="loginUser" type="text" placeholder="Usuario">
       <input id="loginPass" type="password" placeholder="Contraseña">
@@ -92,7 +92,7 @@
 
   <div id="register" class="centered hidden">
     <div class="box">
-      <img src="A_digital_image_displays_a_CONETSHOP-branded_debit.png" alt="Tarjeta CONETSHOP" style="width:100%; border-radius:10px; margin-bottom:15px;">
+      <img src="cconet.png" alt="Tarjeta CONETSHOP" style="width:100%; border-radius:10px; margin-bottom:15px;">
       <h2>Registro</h2>
       <input id="regUser" type="text" placeholder="Usuario">
       <input id="regPass" type="password" placeholder="Contraseña">
@@ -103,7 +103,10 @@
 
   <div id="panel" class="hidden">
     <div class="header" style="text-align:center;padding:30px;background:#1a1a1a">
-      <h1>Bienvenido, <span id="username"></span></h1>
+      <div style="display:flex; align-items:center; justify-content:center; gap:15px; flex-wrap:wrap;">
+  <img src="cconet.png" alt="Tarjeta del usuario" style="width:70px; border-radius:8px; box-shadow:0 0 8px #28a745;">
+  <h1 style="margin:0; color:#28a745;">Bienvenido, <span id="username"></span></h1>
+</div>
       <p>Balance actual: <strong>$0.00</strong></p>
       <div class="clock"><span id="clockRD"></span></div>
     </div>
