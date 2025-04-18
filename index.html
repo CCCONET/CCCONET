@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONETSHOP</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .box {
+      background-color: #1c1c1c;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,255,0,0.3);
+      text-align: center;
+    }
+    .panel {
+      padding: 30px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    img {
+      width: 100%;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .clock {
+      text-align: center;
+      font-size: 16px;
+      color: #28a745;
+      margin-top: 10px;
+    }
+    .wallet-box {
+      background-color: #2d2d2d;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 25px;
+      box-shadow: 0 0 8px rgba(0,255,0,0.3);
+    }
+    .section-separator {
+      border-top: 2px solid #28a745;
+      margin: 30px 0 15px 0;
+    }
+    .card-entry {
+      background-color: #181818;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0,255,0,0.1);
+    }
+    .card-entry p {
+      margin: 5px 0;
+    }
+    a.ccv-button {
+      color: #28a745;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+    h1, h2 {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="centered" id="panel">
+    <div class="panel">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+        <img src="card.png" alt="Tarjeta del usuario" style="width:80px;">
+        <h1 style="color:#28a745;">Bienvenido, <span id="username"></span></h1>
+      </div>
+      <p style="font-size:18px;">Balance actual: <strong style="color:white;">$0.00</strong></p>
+      <div class="clock"><span id="clockRD"></span></div>
+
+      <div style="margin-top:20px;">
+        <p style="color: #28a745; font-size: 16px;">⚠️ No compartas esta información. Es privada.</p>
+        <p style="font-size: 15px;">🗂️ Luego de realizar la compra, se desbloqueará toda la información correspondiente a las tarjetas en un archivo PDF exclusivo.</p>
+      </div>
+
+      <div class="section-separator"></div>
+
+      <!-- TARJETAS DINÁMICAS -->
+      <div id="cardList">
+        <!-- Las tarjetas se agregan aquí -->
+      </div>
+
+      <div class="wallet-box">
+        <p><strong>🔁 Instrucciones para recargar:</strong></p>
+        <p>Para recargar tu cuenta, deberás realizar un depósito en criptomonedas. Estas serán enviadas a la dirección que te proporcionamos abajo. Esta dirección es única y personal para ti, y cualquier monto depositado será acreditado directamente a tu saldo.</p>
+        <br>
+        <p><strong>Esta es tu cartera:</strong></p>
+        <p>Wallet TRC20: <br><strong>TRx29ud829asdu8231jasdka</strong></p>
+        <br>
+        <p>Lo que deposites aquí será reflejado en tu saldo automáticamente luego de 5 a 10 minutos en lo que los administradores verifican la transacción.<br>
+        <strong>Mínimo 35 USDT.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tarjetas = [
+      { nombre: "Jonathan", numero: "4895 **** **** 1244", vencimiento: "07/29", cvv: "***" },
+      { nombre: "Michael", numero: "5390 **** **** 8810", vencimiento: "10/29", cvv: "***" },
+      { nombre: "Aiden", numero: "4716 **** **** 3322", vencimiento: "12/29", cvv: "***" },
+      { nombre: "Ethan", numero: "4020 **** **** 7741", vencimiento: "06/29", cvv: "***" },
+      { nombre: "Lucas", numero: "4519 **** **** 2234", vencimiento: "05/29", cvv: "***" },
+      { nombre: "Noah", numero: "4556 **** **** 1789", vencimiento: "08/29", cvv: "***" },
+      { nombre: "Oliver", numero: "4732 **** **** 9981", vencimiento: "04/29", cvv: "***" },
+    ];
+
+    const cardList = document.getElementById("cardList");
+    tarjetas.forEach(t => {
+      const div = document.createElement("div");
+      div.className = "card-entry";
+      div.innerHTML = `
+        <p>Nombre: ${t.nombre} - Número: ${t.numero}</p>
+        <p>Fecha de vencimiento: ${t.vencimiento} - CVV: ${t.cvv}</p>
+        <p>País: 🇺🇸 Estados Unidos</p>
+        <p>Precio: <strong>$20 USD</strong></p>
+        <a class="ccv-button" onclick="alert('Debes recargar tu cuenta para poder comprar CCV. Mínimo 35 USDT.')">Comprar CCV</a>
+      `;
+      cardList.appendChild(div);
+    });
+
+    function mostrarHoraRD() {
+      function actualizarHora() {
+        const opciones = { timeZone: 'America/Santo_Domingo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const horaRD = new Intl.DateTimeFormat('es-DO', opciones).format(new Date());
+        document.getElementById('clockRD').textContent = horaRD;
+      }
+      actualizarHora();
+      setInterval(actualizarHora, 1000);
+    }
+
+    const savedUser = localStorage.getItem('user');
+    if(savedUser){
+      document.getElementById('username').innerText = savedUser.toUpperCase();
+      mostrarHoraRD();
+    }
+  </script>
+</body>
+</html>
